@@ -148,7 +148,7 @@ export default function MyTreePage() {
     }
   };
 
-  const formatDate = (timestamp: Timestamp) => {
+  const formatDate = (timestamp: Timestamp | undefined) => {
     if (!timestamp) return '';
     const date = timestamp.toDate();
     return new Intl.DateTimeFormat('ko-KR', {
