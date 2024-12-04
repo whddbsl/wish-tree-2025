@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config';
 import { signInWithKakao } from '@/lib/firebase/kakaoAuth';
 
+
 export default function RegisterPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
