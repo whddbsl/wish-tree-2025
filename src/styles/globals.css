@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #FF4B4B;
+  --secondary: #FFD700;
+  --background: #1A1A1A;
+  --accent: #E8F3FF;
+}
+
+body {
+  background-color: var(--background);
+  color: white;
+}
+
+@layer utilities {
+  .container {
+    @apply max-w-7xl mx-auto;
+  }
+}
