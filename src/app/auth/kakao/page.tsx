@@ -2,22 +2,21 @@
 
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signInWithCustomToken, updateProfile } from 'firebase/auth';
-import { auth } from '@/lib/firebase/config';
+import { Suspense } from 'react';
 
-export default function KakaoAuthPage() {
+// KakaoAuthComponent를 별도로 만들어서 useSearchParams를 사용하는 로직을 분리
+function KakaoAuthComponent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  useEffect(() => {
-    const code = searchParams.get('code');
-    
-    if (code) {
-      handleKakaoAuth(code);
-    }
-  }, [searchParams]);
 
-  const handleKakaoAuth = async (code: string) => {
+  const handleKakaoAuth = async () => {
+    const code = searchParams.get('code');
+    if (!code) {
+      console.error('Authorization code not found');
+      router.push('/login');
+      return;
+    }
+
     try {
       const response = await fetch('/api/auth/kakao', {
         method: 'POST',
@@ -27,34 +26,45 @@ export default function KakaoAuthPage() {
         body: JSON.stringify({ code }),
       });
 
-      if (!response.ok) throw new Error('카카오 로그인 실패');
-
-      const { firebaseToken, userInfo } = await response.json();
-
-      // Firebase 로그인
-      const userCredential = await signInWithCustomToken(auth, firebaseToken);
-      
-      // 프로필 정보 업데이트
-      if (userCredential.user) {
-        await updateProfile(userCredential.user, {
-          displayName: userInfo.displayName,
-          photoURL: userInfo.photoURL,
-        });
+      if (!response.ok) {
+        throw new Error('Failed to authenticate with Kakao');
       }
 
       router.push('/my-tree');
     } catch (error) {
-      console.error('카카오 로그인 에러:', error);
-      router.push('/register?error=kakao-auth-failed');
+      console.error('Error during Kakao authentication:', error);
+      router.push('/login');
     }
   };
 
+  useEffect(() => {
+    handleKakaoAuth();
+  }, [handleKakaoAuth]);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#1A1A1A]">
-      <div className="text-white text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white mx-auto mb-4"></div>
-        카카오 로그인 처리중...
+    <div className="min-h-screen flex items-center justify-center bg-[#FFF5E1]">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#FF4B4B] mx-auto mb-4"></div>
+        <p className="text-gray-600">카카오 로그인 처리 중...</p>
       </div>
     </div>
+  );
+}
+
+// 메인 페이지 컴포넌트
+export default function KakaoPage() {
+  return (
+    <Suspense 
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-[#FFF5E1]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#FF4B4B] mx-auto mb-4"></div>
+            <p className="text-gray-600">로딩 중...</p>
+          </div>
+        </div>
+      }
+    >
+      <KakaoAuthComponent />
+    </Suspense>
   );
 } 
