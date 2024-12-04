@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config';
 import { signInWithKakao } from '@/lib/firebase/kakaoAuth';
+import { FirebaseError } from 'firebase/app';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,9 +32,8 @@ export default function LoginPage() {
       router.push('/my-tree');
     } catch (err) {
       console.error('로그인 에러:', err);
-      if (err instanceof Error) {
-        const errorCode = (err as any).code;
-        switch (errorCode) {
+      if (err instanceof FirebaseError) {
+        switch (err.code) {
           case 'auth/invalid-email':
             setError('유효하지 않은 이메일 형식입니다.');
             break;

@@ -1,6 +1,3 @@
-import { signInWithCustomToken } from 'firebase/auth';
-import { auth } from './config';
-
 const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI!;
 
