@@ -192,9 +192,18 @@ export default function MyTreePage() {
             <>
               {/* 불꽃놀이 효과 */}
               <div className="fireworks-container absolute inset-0 pointer-events-none">
-                <div className="firework" style={{ '--delay': '0s' }}></div>
-                <div className="firework" style={{ '--delay': '0.5s' }}></div>
-                <div className="firework" style={{ '--delay': '1s' }}></div>
+                <div
+                  className="firework"
+                  style={{ '--delay': '0s' } as React.CSSProperties}
+                ></div>
+                <div
+                  className="firework"
+                  style={{ '--delay': '0.5s' } as React.CSSProperties}
+                ></div>
+                <div
+                  className="firework"
+                  style={{ '--delay': '1s' } as React.CSSProperties}
+                ></div>
               </div>
 
               {/* 기존 메시지 컨테이너 */}
