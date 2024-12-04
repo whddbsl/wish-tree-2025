@@ -75,6 +75,10 @@ export default function TreePage() {
 
     setIsSubmitting(true);
     try {
+      if (typeof params.id !== 'string') {
+        throw new Error('Invalid tree owner ID');
+      }
+
       const decodedTreeOwnerId = decodeURIComponent(params.id).replace('%3A', ':');
 
       const messageData = {
