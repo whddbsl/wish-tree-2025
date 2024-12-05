@@ -25,21 +25,21 @@ export const handleKakaoCallback = async (code: string) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.text();
-      console.error('Kakao auth response error:', errorData);
+      const errorText = await response.text();
+      console.error('Server response error:', errorText);
       throw new Error("Failed to authenticate with Kakao");
     }
 
     const { token } = await response.json();
-    console.log('Received Firebase custom token:', token);
+    console.log('Received custom token:', token);
 
-    // Firebase로 로그인
+    // Firebase 로그인
     const userCredential = await signInWithCustomToken(auth, token);
-    console.log('Firebase login successful:', userCredential.user);
-    
+    console.log('Firebase sign in successful:', userCredential.user);
+
     return userCredential.user;
   } catch (error) {
-    console.error("Error during Kakao authentication:", error);
+    console.error("Kakao authentication error:", error);
     throw error;
   }
 };

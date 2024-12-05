@@ -4,7 +4,7 @@ import { adminAuth } from "@/lib/firebase/admin";
 export async function POST(request: Request) {
   try {
     const { code } = await request.json();
-    console.log('Processing Kakao authentication...', code);
+    console.log('Processing Kakao code:', code);
 
     // 카카오 토큰 받기
     const tokenResponse = await fetch('https://kauth.kakao.com/oauth/token', {
@@ -27,7 +27,6 @@ export async function POST(request: Request) {
     }
 
     const tokenData = await tokenResponse.json();
-    console.log('Kakao token received');
 
     // 카카오 사용자 정보 받기
     const userResponse = await fetch('https://kapi.kakao.com/v2/user/me', {
@@ -52,24 +51,11 @@ export async function POST(request: Request) {
       provider: 'kakao'
     });
 
-    // Firebase에 사용자 생성 또는 업데이트
-    try {
-      await adminAuth.getUser(uid);
-    } catch (error) {
-      // 사용자가 없으면 생성
-      await adminAuth.createUser({
-        uid,
-        email: userData.kakao_account?.email,
-        displayName: userData.properties?.nickname,
-        photoURL: userData.properties?.profile_image,
-      });
-    }
-
-    console.log('Firebase custom token created');
+    console.log('Custom token created successfully');
     return NextResponse.json({ token: customToken });
 
   } catch (error) {
-    console.error('Detailed Kakao auth error:', error);
+    console.error('Kakao auth error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Authentication failed' },
       { status: 500 }
