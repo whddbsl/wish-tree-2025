@@ -5,7 +5,7 @@ import '@/styles/globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: '2025 새해 소원나무',
+  title: '2025 새해 소망 이루기',
   description: '새해를 맞이하여 소중한 사람들과 따뜻한 마음을 나누는 공간',
 }
 
