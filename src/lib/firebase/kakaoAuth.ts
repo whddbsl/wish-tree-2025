@@ -16,8 +16,6 @@ export const signInWithKakao = async () => {
 
 export const handleKakaoCallback = async (code: string) => {
   try {
-    console.log('Handling Kakao callback with code:', code);
-
     const response = await fetch("/api/auth/kakao", {
       method: "POST",
       headers: {
