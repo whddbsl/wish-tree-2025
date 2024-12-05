@@ -32,6 +32,7 @@ export const handleKakaoCallback = async (code: string) => {
 
     // Firebase로 로그인
     const userCredential = await signInWithCustomToken(auth, token);
+    console.log('User logged in:', userCredential.user);
     return userCredential.user;
   } catch (error) {
     console.error("Error during Kakao authentication:", error);
