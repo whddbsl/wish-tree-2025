@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { addDoc, collection, getDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { db } from '@/lib/firebase/config';
+import { auth, db } from '@/lib/firebase/config';
 import Image from 'next/image';
 
 interface Message {

@@ -9,7 +9,7 @@ import {
   onSnapshot,
   Timestamp 
 } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase/config';
+import { auth, db } from "@/lib/firebase/config";
 import Image from 'next/image';
 import { IoCloseOutline } from "react-icons/io5";
 import { useSwipeable } from 'react-swipeable';
