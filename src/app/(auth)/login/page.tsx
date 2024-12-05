@@ -160,12 +160,6 @@ export default function LoginPage() {
                 로그인 상태 유지
               </label>
             </div>
-
-            <div className="text-sm">
-              <Link href="/forgot-password" className="text-[#FF4B4B] hover:text-[#FF6B6B]">
-                비밀번호를 잊으셨나요?
-              </Link>
-            </div>
           </div>
 
           <button
