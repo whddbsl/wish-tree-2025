@@ -5,23 +5,21 @@ const apps = getApps();
 
 if (!apps.length) {
   try {
-    const formatPrivateKey = (key: string) => {
-      if (key.includes('\\n')) {
-        return key.replace(/\\n/g, '\n');
-      }
-      return key;
-    };
+    const privateKey = process.env.FIREBASE_ADMIN_PRIVATE_KEY 
+      ? process.env.FIREBASE_ADMIN_PRIVATE_KEY.replace(/\\n/g, '\n') 
+      : undefined;
 
     initializeApp({
       credential: cert({
         projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
         clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-        privateKey: formatPrivateKey(process.env.FIREBASE_ADMIN_PRIVATE_KEY || ''),
+        privateKey: privateKey,
       }),
     });
     console.log('Firebase Admin initialized successfully');
   } catch (error) {
     console.error('Firebase admin initialization error:', error);
+    throw error;
   }
 }
 
