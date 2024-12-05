@@ -19,7 +19,6 @@ if (!apps.length) {
     console.log('Firebase Admin initialized successfully');
   } catch (error) {
     console.error('Firebase admin initialization error:', error);
-    throw error;
   }
 }
 
