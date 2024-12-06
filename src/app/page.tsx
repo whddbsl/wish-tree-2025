@@ -6,12 +6,12 @@ export default function HomePage() {
       <div className="max-w-md w-full space-y-8 text-center">
         <div className="space-y-4">
           <h1 className="text-4xl font-bold text-gray-800">
-            2025 소원트리
+            2025 설렘 다락
           </h1>
           <p className="text-lg text-gray-600">
-            새해를 맞이하여 소중한 사람들과 
+            다락방에 남기는 우리들의 이야기, 
             <br />
-            마음을 나누어보세요
+            새해 첫 날 서로에게 전하는 특별한 선물이 됩니다.
           </p>
         </div>
 
