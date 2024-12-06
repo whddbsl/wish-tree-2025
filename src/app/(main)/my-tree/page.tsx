@@ -56,24 +56,29 @@ function CountdownTimer() {
     return () => clearInterval(timer);
   }, []);
 
+  // 숫자를 2자리로 포맷팅하는 함수
+  const padNumber = (num: number) => {
+    return num.toString().padStart(2, '0');
+  };
+
   return (
     <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg mb-6 border border-[#FFD1D1]">
       <h2 className="text-xl font-bold mb-4 text-center text-gray-800">2025년 새해까지</h2>
       <div className="flex justify-center space-x-4">
         <div className="text-center bg-white/70 p-3 rounded-lg min-w-[60px]">
-          <div className="text-3xl font-bold text-[#FF4B4B]">{timeLeft.days}</div>
+          <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.days)}</div>
           <div className="text-sm text-gray-600">일</div>
         </div>
         <div className="text-center bg-white/70 p-3 rounded-lg min-w-[60px]">
-          <div className="text-3xl font-bold text-[#FF4B4B]">{timeLeft.hours}</div>
+          <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.hours)}</div>
           <div className="text-sm text-gray-600">시간</div>
         </div>
         <div className="text-center bg-white/70 p-3 rounded-lg min-w-[60px]">
-          <div className="text-3xl font-bold text-[#FF4B4B]">{timeLeft.minutes}</div>
+          <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.minutes)}</div>
           <div className="text-sm text-gray-600">분</div>
         </div>
         <div className="text-center bg-white/70 p-3 rounded-lg min-w-[60px]">
-          <div className="text-3xl font-bold text-[#FF4B4B]">{timeLeft.seconds}</div>
+          <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.seconds)}</div>
           <div className="text-sm text-gray-600">초</div>
         </div>
       </div>
