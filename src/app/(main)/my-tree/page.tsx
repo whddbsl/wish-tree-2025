@@ -86,6 +86,7 @@ export default function MyTreePage() {
   const [loading, setLoading] = useState(true);
   const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [userName, setUserName] = useState<string>(''); // 사용자 이름 상태 추가
   const router = useRouter();
   
   const messagesPerPage = 9;
@@ -111,9 +112,12 @@ export default function MyTreePage() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        console.error('User is not logged in');
-        router.push('/login'); // 로그인 페이지로 리다이렉트
+      if (user) {
+        console.log('현재 사용자:', user); // 디버깅용 로그
+        setUserName(user.displayName || '');
+      } else {
+        console.log('로그인된 사용자 없음');
+        router.push('/login');
       }
     });
 
@@ -177,6 +181,13 @@ export default function MyTreePage() {
   return (
     <div className="min-h-screen bg-[#FFF5E1] text-gray-800 p-4">
       <div className="max-w-md mx-auto">
+        {/* 사용자 이름 표시 */}
+        <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1] mb-6">
+          <h2 className="text-xl font-bold text-center text-gray-800">
+            {userName ? `${userName}님의 소원트리` : '소원트리'}
+          </h2>
+        </div>
+
         {/* 카운트다운 타이머 추가 */}
         <CountdownTimer />
 
