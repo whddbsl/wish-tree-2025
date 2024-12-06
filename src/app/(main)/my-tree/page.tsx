@@ -62,22 +62,22 @@ function CountdownTimer() {
   };
 
   return (
-    <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg mb-6 border border-[#FFD1D1]">
-      <h2 className="text-xl font-bold mb-4 text-center text-gray-800">2025년 새해까지</h2>
+    <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg mb-4 border border-[#FFD1D1]">
+      <h2 className="text-xl font-bold mb-4 text-center text-gray-800">Happy New Year 2025</h2>
       <div className="flex justify-center space-x-4">
-        <div className="text-center bg-white/70 p-3 rounded-lg min-w-[60px]">
+        <div className="text-center rounded-lg min-w-[60px]">
           <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.days)}</div>
           <div className="text-sm text-gray-600">일</div>
         </div>
-        <div className="text-center bg-white/70 p-3 rounded-lg min-w-[60px]">
+        <div className="text-center rounded-lg min-w-[60px]">
           <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.hours)}</div>
           <div className="text-sm text-gray-600">시간</div>
         </div>
-        <div className="text-center bg-white/70 p-3 rounded-lg min-w-[60px]">
+        <div className="text-center rounded-lg min-w-[60px]">
           <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.minutes)}</div>
           <div className="text-sm text-gray-600">분</div>
         </div>
-        <div className="text-center bg-white/70 p-3 rounded-lg min-w-[60px]">
+        <div className="text-center rounded-lg min-w-[60px]">
           <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.seconds)}</div>
           <div className="text-sm text-gray-600">초</div>
         </div>
@@ -187,7 +187,7 @@ export default function MyTreePage() {
     <div className="min-h-screen bg-[#FFF5E1] text-gray-800 p-4">
       <div className="max-w-md mx-auto">
         {/* 사용자 이름 표시 */}
-        <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1] mb-6">
+        <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1] mb-4">
           <h2 className="text-xl font-bold text-center text-gray-800">
             {userName ? `${userName}님의 소원트리` : '소원트리'}
           </h2>
