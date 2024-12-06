@@ -198,7 +198,7 @@ export default function MyTreePage() {
 
         {/* 메시지 현황 */}
         <div
-          className="bg-white/50 backdrop-blur-sm p-4 rounded-lg mb-6 h-[58vh] border border-[#FFD1D1]"
+          className="bg-white/50 backdrop-blur-sm p-4 rounded-lg mb-4 h-[58vh] border border-[#FFD1D1]"
           style={{
             backgroundImage: "url(/images/background.jpg)",
             backgroundSize: "cover",
