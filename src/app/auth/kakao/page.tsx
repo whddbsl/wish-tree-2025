@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import { signInWithCustomToken } from 'firebase/auth';
+import { auth } from '@/lib/firebase/config';
 
 // KakaoAuthComponent를 별도로 만들어서 useSearchParams를 사용하는 로직을 분리
 function KakaoAuthComponent() {

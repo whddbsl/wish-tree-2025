@@ -13,6 +13,8 @@ import { auth, db } from "@/lib/firebase/config";
 import Image from 'next/image';
 import { IoCloseOutline } from "react-icons/io5";
 import { useSwipeable } from 'react-swipeable';
+import { useRouter } from 'next/navigation';
+import { onAuthStateChanged } from 'firebase/auth';
 
 interface Message {
   id: string;
@@ -84,6 +86,7 @@ export default function MyTreePage() {
   const [loading, setLoading] = useState(true);
   const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const router = useRouter();
   
   const messagesPerPage = 9;
   const totalPages = Math.ceil(messages.length / messagesPerPage);
@@ -105,6 +108,17 @@ export default function MyTreePage() {
       }
     },
   });
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        console.error('User is not logged in');
+        router.push('/login'); // 로그인 페이지로 리다이렉트
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
 
   useEffect(() => {
     const user = auth.currentUser;
