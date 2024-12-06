@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { 
-  collection, 
-  query, 
-  where, 
-  orderBy, 
+import { useEffect, useState } from "react";
+import {
+  collection,
+  query,
+  where,
+  orderBy,
   onSnapshot,
-  Timestamp 
-} from 'firebase/firestore';
+  Timestamp,
+} from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/config";
-import Image from 'next/image';
+import Image from "next/image";
 import { IoCloseOutline } from "react-icons/io5";
-import { useSwipeable } from 'react-swipeable';
-import { useRouter } from 'next/navigation';
-import { onAuthStateChanged } from 'firebase/auth';
+import { useSwipeable } from "react-swipeable";
+import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
 
 interface Message {
   id: string;
@@ -30,11 +30,11 @@ function CountdownTimer() {
     days: 0,
     hours: 0,
     minutes: 0,
-    seconds: 0
+    seconds: 0,
   });
 
   useEffect(() => {
-    const targetDate = new Date('2025-01-01T00:00:00+09:00'); // 한국 시간 기준
+    const targetDate = new Date("2025-01-01T00:00:00+09:00"); // 한국 시간 기준
 
     const calculateTimeLeft = () => {
       const now = new Date();
@@ -45,7 +45,7 @@ function CountdownTimer() {
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
           minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
+          seconds: Math.floor((difference / 1000) % 60),
         });
       }
     };
@@ -58,27 +58,37 @@ function CountdownTimer() {
 
   // 숫자를 2자리로 포맷팅하는 함수
   const padNumber = (num: number) => {
-    return num.toString().padStart(2, '0');
+    return num.toString().padStart(2, "0");
   };
 
   return (
     <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg mb-4 border border-[#FFD1D1]">
-      <h2 className="text-xl font-bold mb-4 text-center text-gray-800">Happy New Year 2025</h2>
+      <h2 className="text-xl font-bold mb-4 text-center text-gray-800">
+        Happy New Year 2025
+      </h2>
       <div className="flex justify-center space-x-4">
         <div className="text-center rounded-lg min-w-[60px]">
-          <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.days)}</div>
+          <div className="text-3xl font-bold text-[#FF4B4B]">
+            {padNumber(timeLeft.days)}
+          </div>
           <div className="text-sm text-gray-600">일</div>
         </div>
         <div className="text-center rounded-lg min-w-[60px]">
-          <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.hours)}</div>
+          <div className="text-3xl font-bold text-[#FF4B4B]">
+            {padNumber(timeLeft.hours)}
+          </div>
           <div className="text-sm text-gray-600">시간</div>
         </div>
         <div className="text-center rounded-lg min-w-[60px]">
-          <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.minutes)}</div>
+          <div className="text-3xl font-bold text-[#FF4B4B]">
+            {padNumber(timeLeft.minutes)}
+          </div>
           <div className="text-sm text-gray-600">분</div>
         </div>
         <div className="text-center rounded-lg min-w-[60px]">
-          <div className="text-3xl font-bold text-[#FF4B4B]">{padNumber(timeLeft.seconds)}</div>
+          <div className="text-3xl font-bold text-[#FF4B4B]">
+            {padNumber(timeLeft.seconds)}
+          </div>
           <div className="text-sm text-gray-600">초</div>
         </div>
       </div>
@@ -89,11 +99,13 @@ function CountdownTimer() {
 export default function MyTreePage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null);
+  const [selectedMessageId, setSelectedMessageId] = useState<string | null>(
+    null
+  );
   const [currentPage, setCurrentPage] = useState(0);
-  const [userName, setUserName] = useState<string>(''); // 사용자 이름 상태 추가
+  const [userName, setUserName] = useState<string>(""); // 사용자 이름 상태 추가
   const router = useRouter();
-  
+
   const messagesPerPage = 9;
   const totalPages = Math.ceil(messages.length / messagesPerPage);
 
@@ -105,12 +117,12 @@ export default function MyTreePage() {
   const handlers = useSwipeable({
     onSwipedLeft: () => {
       if (currentPage < totalPages - 1) {
-        setCurrentPage(prev => prev + 1);
+        setCurrentPage((prev) => prev + 1);
       }
     },
     onSwipedRight: () => {
       if (currentPage > 0) {
-        setCurrentPage(prev => prev - 1);
+        setCurrentPage((prev) => prev - 1);
       }
     },
   });
@@ -118,11 +130,11 @@ export default function MyTreePage() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log('현재 사용자:', user); // 디버깅용 로그
-        setUserName(user.displayName || '');
+        console.log("현재 사용자:", user); // 디버깅용 로그
+        setUserName(user.displayName || "");
       } else {
-        console.log('로그인된 사용자 없음');
-        router.push('/login');
+        console.log("로그인된 사용자 없음");
+        router.push("/login");
       }
     });
 
@@ -134,17 +146,17 @@ export default function MyTreePage() {
     if (!user) return;
 
     const messagesQuery = query(
-      collection(db, 'messages'),
-      where('treeOwnerId', '==', user.uid),
-      orderBy('createdAt', 'asc')
+      collection(db, "messages"),
+      where("treeOwnerId", "==", user.uid),
+      orderBy("createdAt", "asc")
     );
 
     const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-      const newMessages = snapshot.docs.map(doc => ({
+      const newMessages = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       })) as Message[];
-      
+
       setMessages(newMessages);
       setLoading(false);
     });
@@ -156,30 +168,32 @@ export default function MyTreePage() {
   const handleShare = async () => {
     const user = auth.currentUser;
     if (!user) {
-      console.error('사용자가 로그인되어 있지 않습니다.');
+      console.error("사용자가 로그인되어 있지 않습니다.");
       return;
     }
 
-    const shareUrl = `${window.location.origin}/tree/${encodeURIComponent(user.uid)}`;
-    
+    const shareUrl = `${window.location.origin}/tree/${encodeURIComponent(
+      user.uid
+    )}`;
+
     try {
       await navigator.clipboard.writeText(shareUrl);
-      alert('URL이 클립보드에 복사되었습니다!');
+      alert("URL이 클립보드에 복사되었습니다!");
     } catch (err) {
-      console.error('URL 복사 실패:', err);
-      prompt('아래 URL을 복사하세요:', shareUrl);
+      console.error("URL 복사 실패:", err);
+      prompt("아래 URL을 복사하세요:", shareUrl);
     }
   };
 
   const formatDate = (timestamp: Timestamp | undefined) => {
-    if (!timestamp) return '';
+    if (!timestamp) return "";
     const date = timestamp.toDate();
-    return new Intl.DateTimeFormat('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Intl.DateTimeFormat("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     }).format(date);
   };
 
@@ -189,7 +203,7 @@ export default function MyTreePage() {
         {/* 사용자 이름 표시 */}
         <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1] mb-4">
           <h2 className="text-xl font-bold text-center text-gray-800">
-            {userName ? `${userName}님의 소원트리` : '소원트리'}
+            {userName ? `${userName}님의 소원트리` : "소원트리"}
           </h2>
         </div>
 
@@ -224,15 +238,15 @@ export default function MyTreePage() {
               <div className="fireworks-container absolute inset-0 pointer-events-none">
                 <div
                   className="firework"
-                  style={{ '--delay': '0s' } as React.CSSProperties}
+                  style={{ "--delay": "0s" } as React.CSSProperties}
                 ></div>
                 <div
                   className="firework"
-                  style={{ '--delay': '0.5s' } as React.CSSProperties}
+                  style={{ "--delay": "0.5s" } as React.CSSProperties}
                 ></div>
                 <div
                   className="firework"
-                  style={{ '--delay': '1s' } as React.CSSProperties}
+                  style={{ "--delay": "1s" } as React.CSSProperties}
                 ></div>
               </div>
 
@@ -242,27 +256,30 @@ export default function MyTreePage() {
                   <div {...handlers} className="relative h-full">
                     <div className="grid grid-cols-3 gap-x-3 gap-y-4 h-full place-items-center relative z-10">
                       {currentMessages.map((message, index) => (
-                        <div 
+                        <div
                           key={message.id}
                           className={`
                             relative cursor-pointer 
                             flex flex-col items-center gap-1
                             transform hover:scale-105 transition-all
-                            ${index % 2 === 0 ? 'animate-bounce-slow' : 'animate-bounce-slower'}
+                            ${
+                              index % 2 === 0
+                                ? "animate-bounce-slow"
+                                : "animate-bounce-slower"
+                            }
                           `}
                           onClick={() => setSelectedMessageId(message.id)}
                         >
                           <div className="relative">
                             <Image
-                              src={`/images/envelopes/envelope${message.envelopeType || 1}.png`}
+                              src={`/images/envelopes/envelope${
+                                message.envelopeType || 1
+                              }.png`}
                               alt={`메시지 from ${message.sender}`}
                               width={65}
                               height={65}
                               className="rounded-2xl shadow-[0_0_15px_rgba(255,75,75,0.3)]"
                             />
-                            <div className="absolute -top-2 -right-2 w-5 h-5 bg-[#FF4B4B] rounded-full flex items-center justify-center text-white text-xs">
-                              {currentPage * messagesPerPage + index + 1}
-                            </div>
                           </div>
                           <span className="text-xs text-gray-700 font-medium text-center">
                             {message.sender}
@@ -278,7 +295,9 @@ export default function MyTreePage() {
                           <div
                             key={index}
                             className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                              currentPage === index ? 'bg-[#FF4B4B]' : 'bg-gray-300'
+                              currentPage === index
+                                ? "bg-[#FF4B4B]"
+                                : "bg-gray-300"
                             }`}
                           />
                         ))}
@@ -308,7 +327,7 @@ export default function MyTreePage() {
                 }
 
                 .firework::before {
-                  content: '';
+                  content: "";
                   position: absolute;
                   top: 0;
                   left: 0;
@@ -323,11 +342,11 @@ export default function MyTreePage() {
                 @keyframes firework-animation {
                   0% {
                     transform: translate(50vw, 50vh);
-                    background: #FF4B4B;
+                    background: #ff4b4b;
                   }
                   50% {
                     transform: translate(50vw, 20vh);
-                    background: #FF4B4B;
+                    background: #ff4b4b;
                   }
                   100% {
                     transform: translate(50vw, 50vh);
@@ -337,23 +356,17 @@ export default function MyTreePage() {
 
                 @keyframes firework-particles {
                   0% {
-                    box-shadow:
-                      0 0 0 0 #FFD1D1,
-                      0 0 0 0 #FF8B8B,
-                      0 0 0 0 #FF4B4B;
+                    box-shadow: 0 0 0 0 #ffd1d1, 0 0 0 0 #ff8b8b,
+                      0 0 0 0 #ff4b4b;
                   }
                   50% {
-                    box-shadow:
-                      100px -100px 0 0 #FFD1D1,
-                      -100px -100px 0 0 #FF8B8B,
-                      0 -100px 0 0 #FF4B4B,
-                      100px 100px 0 0 #FFD1D1,
-                      -100px 100px 0 0 #FF8B8B,
-                      0 100px 0 0 #FF4B4B;
+                    box-shadow: 100px -100px 0 0 #ffd1d1,
+                      -100px -100px 0 0 #ff8b8b, 0 -100px 0 0 #ff4b4b,
+                      100px 100px 0 0 #ffd1d1, -100px 100px 0 0 #ff8b8b,
+                      0 100px 0 0 #ff4b4b;
                   }
                   100% {
-                    box-shadow:
-                      200px -200px 0 -5px transparent,
+                    box-shadow: 200px -200px 0 -5px transparent,
                       -200px -200px 0 -5px transparent,
                       0 -200px 0 -5px transparent,
                       200px 200px 0 -5px transparent,
@@ -432,4 +445,4 @@ export default function MyTreePage() {
       </div>
     </div>
   );
-} 
+}
