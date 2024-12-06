@@ -2,16 +2,26 @@ import Link from 'next/link'
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#FFF5E1] flex flex-col items-center justify-center p-4">
-      <div className="max-w-md w-full space-y-8 text-center">
+    <main 
+      className="min-h-screen bg-[#FFF5E1] flex flex-col items-center justify-center p-4 relative"
+      style={{
+        backgroundImage: "url('/images/logo.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="absolute inset-0 bg-[#FFF5E1]/80"></div>
+
+      <div className="relative z-10 max-w-md w-full space-y-8 text-center">
         <div className="space-y-4">
           <h1 className="text-4xl font-bold text-gray-800">
-            2025 설렘 다락
+            2025 소원트리
           </h1>
           <p className="text-lg text-gray-600">
-            다락방에 남기는 우리들의 이야기, 
+            새해를 맞이하여 소중한 사람들과 
             <br />
-            새해 첫 날 서로에게 전하는 특별한 선물이 됩니다.
+            마음을 나누어보세요
           </p>
         </div>
 
