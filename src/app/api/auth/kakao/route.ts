@@ -41,7 +41,6 @@ export async function POST(request: Request) {
       await adminAuth.createUser({
         uid: uid,
         displayName: userData.properties?.nickname || '',
-        photoURL: userData.properties?.profile_image || '',
       });
       console.log('새 사용자 생성됨');
     } catch (createError: any) {
@@ -49,7 +48,6 @@ export async function POST(request: Request) {
       if (createError.code === 'auth/uid-already-exists') {
         await adminAuth.updateUser(uid, {
           displayName: userData.properties?.nickname || '',
-          photoURL: userData.properties?.profile_image || '',
         });
         console.log('기존 사용자 정보 업데이트됨');
       } else {
