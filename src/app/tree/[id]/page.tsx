@@ -183,7 +183,7 @@ export default function TreePage() {
                     value={sender}
                     onChange={(e) => setSender(e.target.value)}
                     placeholder="보내는 사람"
-                    className="w-full p-2 rounded-lg border border-gray-200 focus:outline-none focus:border-[#FF4B4B] bg-white/70"
+                    className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#FF4B4B] bg-white/70 text-gray-900"
                     maxLength={20}
                   />
                 )}
@@ -194,7 +194,7 @@ export default function TreePage() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="메시지를 입력하세요"
-                  className="w-full h-32 p-2 rounded-lg border border-gray-200 focus:outline-none focus:border-[#FF4B4B] resize-none bg-white/70"
+                  className="w-full h-32 p-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#FF4B4B] resize-none bg-white/70 text-gray-900"
                   maxLength={1000}
                 />
               </div>
