@@ -27,6 +27,7 @@ export async function POST(request: Request) {
     }
 
     const tokenData = await tokenResponse.json();
+    console.log('Received Kakao token:', tokenData);
 
     // 카카오 사용자 정보 받기
     const userResponse = await fetch('https://kapi.kakao.com/v2/user/me', {

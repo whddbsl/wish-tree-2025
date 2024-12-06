@@ -4,9 +4,12 @@ import { auth } from './config';
 export const signInWithKakao = async () => {
   try {
     const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
-      const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+    const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+    
+    console.log('KAKAO_CLIENT_ID:', KAKAO_CLIENT_ID);
+    console.log('REDIRECT_URI:', REDIRECT_URI);
+    
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
     window.location.href = kakaoURL;
   } catch (error) {
     console.error("Kakao login error:", error);
