@@ -127,7 +127,7 @@ export default function MyTreePage() {
     const messagesQuery = query(
       collection(db, 'messages'),
       where('treeOwnerId', '==', user.uid),
-      orderBy('createdAt', 'desc')
+      orderBy('createdAt', 'asc')
     );
 
     const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
