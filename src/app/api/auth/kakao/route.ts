@@ -32,21 +32,36 @@ export async function POST(request: Request) {
 
     const userData = await userResponse.json();
     console.log('카카오 사용자 정보:', userData);
-    // 여기서 userData에 다음과 같은 정보가 포함됩니다:
-    // - id: 카카오 계정 고유 ID
-    // - properties: 닉네임, 프로필 이미지 등
-    // - kakao_account: 이메일, 성별, 연령대 등 (동의 항목에 따라 다름)
 
     // Firebase Custom Token 생성
     const uid = `kakao:${userData.id}`;
-    const customToken = await adminAuth.createCustomToken(uid, {
-      email: userData.kakao_account?.email,
-      displayName: userData.properties?.nickname,
-      photoURL: userData.properties?.profile_image,
-      provider: 'kakao'
-    });
+    
+    try {
+      // 먼저 사용자 생성 시도
+      await adminAuth.createUser({
+        uid: uid,
+        displayName: userData.properties?.nickname || '',
+        photoURL: userData.properties?.profile_image || '',
+      });
+      console.log('새 사용자 생성됨');
+    } catch (createError: any) {
+      // 이미 존재하는 사용자인 경우 정보 업데이트
+      if (createError.code === 'auth/uid-already-exists') {
+        await adminAuth.updateUser(uid, {
+          displayName: userData.properties?.nickname || '',
+          photoURL: userData.properties?.profile_image || '',
+        });
+        console.log('기존 사용자 정보 업데이트됨');
+      } else {
+        console.error('사용자 생성/업데이트 에러:', createError);
+        throw createError;
+      }
+    }
 
-    console.log('Firebase Custom Token 생성 완료');
+    // Custom Token 생성
+    const customToken = await adminAuth.createCustomToken(uid);
+    console.log('Custom Token 생성 완료');
+
     return NextResponse.json({ token: customToken });
 
   } catch (error) {
@@ -56,4 +71,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-} 
+}
