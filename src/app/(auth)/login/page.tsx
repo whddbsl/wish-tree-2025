@@ -47,7 +47,7 @@ export default function LoginPage() {
             setError('잘못된 비밀번호입니다.');
             break;
           default:
-            setError('로그인 중 오류가 발생했습니다.');
+            setError('아이디나 비밀번호가 올바르지 않습니다.');
         }
       }
     } finally {
