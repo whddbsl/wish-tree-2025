@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { addDoc, collection, getDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Message {
   content: string;
@@ -112,10 +113,19 @@ export default function TreePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFF5E1] text-gray-800 p-4">
-      <div className="max-w-md mx-auto">
-        <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg mb-6">
-          <h1 className="text-2xl font-bold text-center text-gray-800 mb-4">
+    <div className="min-h-screen bg-[#FFF5E1] p-4">
+      <div className="max-w-md mx-auto space-y-6">
+        <div className="flex justify-end">
+          <Link
+            href="/login"
+            className="bg-[#FF4B4B] hover:bg-[#FF6B6B] text-white px-4 py-2 rounded-lg transition-colors text-sm"
+          >
+            로그인하기
+          </Link>
+        </div>
+
+        <div className="bg-white/50 backdrop-blur-sm p-6 rounded-lg border border-[#FFD1D1]">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">
             {ownerName ? `${ownerName}님의 새해 메시지 트리` : '새해 메시지 트리'}
           </h1>
           <p className="text-center text-gray-600 mb-6">
