@@ -7,7 +7,9 @@ import {
   where, 
   orderBy, 
   onSnapshot,
-  Timestamp 
+  Timestamp,
+  doc,
+  updateDoc
 } from 'firebase/firestore';
 import { auth, db } from "@/lib/firebase/config";
 import Image from 'next/image';
@@ -181,6 +183,33 @@ export default function MyTreePage() {
       hour: '2-digit',
       minute: '2-digit'
     }).format(date);
+  };
+
+  const handleMessageClick = async (messageId: string) => {
+    setSelectedMessageId(messageId);
+    
+    // 현재 메시지 찾기
+    const message = messages.find(m => m.id === messageId);
+    
+    // 메시지가 존재하고 아직 읽지 않은 상태라면
+    if (message && !message.isRead) {
+      try {
+        // Firestore에서 해당 메시지를 읽음 상태로 업데이트
+        const messageRef = doc(db, 'messages', messageId);
+        await updateDoc(messageRef, {
+          isRead: true
+        });
+        
+        // 로컬 상태 업데이트
+        setMessages(prevMessages =>
+          prevMessages.map(m =>
+            m.id === messageId ? { ...m, isRead: true } : m
+          )
+        );
+      } catch (error) {
+        console.error('Error updating message status:', error);
+      }
+    }
   };
 
   return (
