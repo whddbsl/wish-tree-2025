@@ -120,7 +120,7 @@ export default function TreePage() {
             href="/login"
             className="bg-[#FF4B4B] hover:bg-[#FF6B6B] text-white px-4 py-2 rounded-lg transition-colors text-sm"
           >
-            로그인하기
+            복주머니 만들기
           </Link>
         </div>
 
