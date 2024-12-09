@@ -41,7 +41,6 @@ export default function TreePage() {
   const [sender, setSender] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [isAnonymous, setIsAnonymous] = useState(false);
   const [selectedEnvelope, setSelectedEnvelope] = useState(1);
 
   useEffect(() => {
@@ -65,7 +64,7 @@ export default function TreePage() {
     e.preventDefault();
     if (isSubmitting) return;
 
-    if (!isAnonymous && !sender.trim()) {
+    if (!sender.trim()) {
       alert('보내는 사람을 입력해주세요.');
       return;
     }
@@ -83,12 +82,11 @@ export default function TreePage() {
       const decodedTreeOwnerId = decodeURIComponent(params.id).replace('%3A', ':');
 
       const messageData = {
-        sender: isAnonymous ? '익명' : sender.trim(),
+        sender: sender.trim(),
         content: message.trim(),
         treeOwnerId: decodedTreeOwnerId,
         createdAt: serverTimestamp(),
         isRead: false,
-        isAnonymous: isAnonymous,
         envelopeType: selectedEnvelope
       };
 
@@ -97,7 +95,6 @@ export default function TreePage() {
       setSubmitSuccess(true);
       setMessage('');
       setSender('');
-      setIsAnonymous(false);
       
       setTimeout(() => setSubmitSuccess(false), 3000);
     } catch (error) {
@@ -126,7 +123,7 @@ export default function TreePage() {
 
         <div className="bg-white/50 backdrop-blur-sm p-6 rounded-lg border border-[#FFD1D1]">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
-            {ownerName ? `${ownerName}님의 새해 메시지 트리` : '새해 메시지 트리'}
+            {ownerName ? `${ownerName}님의 새해 복주머니` : '새해 복주머니'}
           </h1>
           <p className="text-center text-gray-600 mb-6">
             따뜻한 새해 메시지를 남겨보세요
@@ -162,36 +159,14 @@ export default function TreePage() {
             </div>
 
             <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 mb-2">
-                  <input
-                    type="checkbox"
-                    id="anonymous"
-                    checked={isAnonymous}
-                    onChange={(e) => {
-                      setIsAnonymous(e.target.checked);
-                      if (e.target.checked) {
-                        setSender('');
-                      }
-                    }}
-                    className="w-4 h-4 text-[#FF4B4B] rounded border-gray-300 focus:ring-[#FF4B4B]"
-                  />
-                  <label htmlFor="anonymous" className="text-sm text-gray-600">
-                    익명으로 보내기
-                  </label>
-                </div>
-                
-                {!isAnonymous && (
-                  <input
-                    type="text"
-                    value={sender}
-                    onChange={(e) => setSender(e.target.value)}
-                    placeholder="보내는 사람"
-                    className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#FF4B4B] bg-white/70 text-gray-900 mb-2"
-                    maxLength={20}
-                  />
-                )}
-              </div>
+              <input
+                type="text"
+                value={sender}
+                onChange={(e) => setSender(e.target.value)}
+                placeholder="보내는 사람"
+                className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#FF4B4B] bg-white/70 text-gray-900 mb-2"
+                maxLength={20}
+              />
 
               <div>
                 <textarea
