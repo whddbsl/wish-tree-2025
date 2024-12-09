@@ -17,6 +17,7 @@ export default function Canvas() {
     context.strokeStyle = '#000000';
 
     const startDrawing = (event: MouseEvent | TouchEvent) => {
+      event.preventDefault();
       setIsDrawing(true);
       draw(event);
     };
@@ -43,9 +44,9 @@ export default function Canvas() {
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mouseup', endDrawing);
     canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('touchstart', startDrawing);
+    canvas.addEventListener('touchstart', startDrawing, { passive: false });
     canvas.addEventListener('touchend', endDrawing);
-    canvas.addEventListener('touchmove', draw);
+    canvas.addEventListener('touchmove', draw, { passive: false });
 
     // 이벤트 리스너 제거
     return () => {
