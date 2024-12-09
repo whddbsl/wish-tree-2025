@@ -187,7 +187,7 @@ export default function TreePage() {
                     value={sender}
                     onChange={(e) => setSender(e.target.value)}
                     placeholder="보내는 사람"
-                    className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#FF4B4B] bg-white/70 text-gray-900"
+                    className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#FF4B4B] bg-white/70 text-gray-900 mb-2"
                     maxLength={20}
                   />
                 )}
