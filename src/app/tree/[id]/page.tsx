@@ -132,26 +132,30 @@ export default function TreePage() {
             따뜻한 새해 메시지를 남겨보세요
           </p>
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg">
-              <h3 className="text-lg font-bold mb-3 text-gray-800">봉투 선택</h3>
-              <div className="grid grid-cols-3 gap-3">
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                봉투 디자인 선택
+              </label>
+              <div className="grid grid-cols-3 gap-2">
                 {ENVELOPE_TYPES.map((envelope) => (
                   <div
                     key={envelope.id}
-                    className={`relative cursor-pointer transition-transform hover:scale-105 ${
-                      selectedEnvelope === envelope.id
-                        ? 'ring-2 ring-[#FF4B4B] ring-offset-2 rounded-lg'
-                        : ''
-                    }`}
                     onClick={() => setSelectedEnvelope(envelope.id)}
+                    className={`relative aspect-square cursor-pointer rounded-lg overflow-hidden border-2 ${
+                      selectedEnvelope === envelope.id
+                        ? 'border-[#FF4B4B]'
+                        : 'border-transparent'
+                    }`}
                   >
-                    <Image
-                      src={envelope.src}
-                      alt={envelope.alt}
-                      width={100}
-                      height={100}
-                      className="rounded-lg"
-                    />
+                    <div className="w-full h-full relative">
+                      <Image
+                        src={envelope.src}
+                        alt={envelope.alt}
+                        fill
+                        className="object-contain p-2"
+                        sizes="(max-width: 768px) 33vw, 25vw"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
