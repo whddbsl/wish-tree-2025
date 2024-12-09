@@ -1,11 +1,18 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import Image from "next/image";
 
-export default function Canvas() {
+const Canvas = forwardRef<HTMLCanvasElement>((props, ref) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState("#000000"); // 기본 색상
   const [lineWidth, setLineWidth] = useState(2); // 기본 선 굵기
+
+  useImperativeHandle(ref, () => {
+    if (canvasRef.current) {
+      return canvasRef.current;
+    }
+    throw new Error("Canvas not initialized");
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -130,4 +137,8 @@ export default function Canvas() {
       </div>
     </div>
   );
-}
+});
+
+Canvas.displayName = "Canvas";
+
+export default Canvas;
