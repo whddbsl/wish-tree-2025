@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import Image from 'next/image';
 
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -70,21 +71,24 @@ export default function Canvas() {
 
   return (
     <div>
-      <div className="flex space-x-2 mb-2">
-        <button onClick={() => handleColorChange('#FF0000')} className="w-8 h-8 bg-red-500 rounded-full"></button>
-        <button onClick={() => handleColorChange('#00FF00')} className="w-8 h-8 bg-green-500 rounded-full"></button>
-        <button onClick={() => handleColorChange('#0000FF')} className="w-8 h-8 bg-blue-500 rounded-full"></button>
-        <button onClick={() => handleColorChange('#FFFF00')} className="w-8 h-8 bg-yellow-500 rounded-full"></button>
-        <button onClick={() => handleColorChange('#000000')} className="w-8 h-8 bg-black rounded-full"></button>
-        <button onClick={handleEraser} className="w-8 h-8 bg-gray-300 rounded-full">지우개</button>
-      </div>
-      <div className="border border-gray-300 rounded-lg overflow-hidden">
+      <div className="border border-gray-300 rounded-lg overflow-hidden mb-2">
         <canvas
           ref={canvasRef}
           width={300}
           height={300}
           className="w-full h-full"
         />
+      </div>
+      <div className="flex items-center space-x-2">
+        <div className="w-8 h-8" style={{ backgroundColor: color, border: '2px solid #000' }}></div>
+        <button onClick={() => handleColorChange('#FF0000')} className="w-8 h-8 bg-red-500 rounded-full"></button>
+        <button onClick={() => handleColorChange('#00FF00')} className="w-8 h-8 bg-green-500 rounded-full"></button>
+        <button onClick={() => handleColorChange('#0000FF')} className="w-8 h-8 bg-blue-500 rounded-full"></button>
+        <button onClick={() => handleColorChange('#FFFF00')} className="w-8 h-8 bg-yellow-500 rounded-full"></button>
+        <button onClick={() => handleColorChange('#000000')} className="w-8 h-8 bg-black rounded-full"></button>
+        <button onClick={handleEraser} className="w-8 h-8">
+          <Image src="/images/eraser.png" alt="지우개" width={32} height={32} />
+        </button>
       </div>
     </div>
   );
