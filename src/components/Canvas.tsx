@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [color, setColor] = useState('#000000'); // 기본 색상
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -14,10 +15,9 @@ export default function Canvas() {
     // 초기 설정
     context.lineWidth = 2;
     context.lineCap = 'round';
-    context.strokeStyle = '#000000';
 
     const startDrawing = (event: MouseEvent | TouchEvent) => {
-      event.preventDefault();
+      event.preventDefault(); // 기본 동작 방지
       setIsDrawing(true);
       draw(event);
     };
@@ -34,6 +34,7 @@ export default function Canvas() {
       const x = 'touches' in event ? event.touches[0].clientX - rect.left : event.clientX - rect.left;
       const y = 'touches' in event ? event.touches[0].clientY - rect.top : event.clientY - rect.top;
 
+      context.strokeStyle = color; // 현재 선택된 색상 사용
       context.lineTo(x, y);
       context.stroke();
       context.beginPath();
@@ -57,16 +58,34 @@ export default function Canvas() {
       canvas.removeEventListener('touchend', endDrawing);
       canvas.removeEventListener('touchmove', draw);
     };
-  }, [isDrawing]);
+  }, [isDrawing, color]);
+
+  const handleColorChange = (newColor: string) => {
+    setColor(newColor);
+  };
+
+  const handleEraser = () => {
+    setColor('#FFFFFF'); // 지우개는 흰색으로 설정
+  };
 
   return (
-    <div className="border border-gray-300 rounded-lg overflow-hidden">
-      <canvas
-        ref={canvasRef}
-        width={300}
-        height={300}
-        className="w-full h-full"
-      />
+    <div>
+      <div className="flex space-x-2 mb-2">
+        <button onClick={() => handleColorChange('#FF0000')} className="w-8 h-8 bg-red-500 rounded-full"></button>
+        <button onClick={() => handleColorChange('#00FF00')} className="w-8 h-8 bg-green-500 rounded-full"></button>
+        <button onClick={() => handleColorChange('#0000FF')} className="w-8 h-8 bg-blue-500 rounded-full"></button>
+        <button onClick={() => handleColorChange('#FFFF00')} className="w-8 h-8 bg-yellow-500 rounded-full"></button>
+        <button onClick={() => handleColorChange('#000000')} className="w-8 h-8 bg-black rounded-full"></button>
+        <button onClick={handleEraser} className="w-8 h-8 bg-gray-300 rounded-full">지우개</button>
+      </div>
+      <div className="border border-gray-300 rounded-lg overflow-hidden">
+        <canvas
+          ref={canvasRef}
+          width={300}
+          height={300}
+          className="w-full h-full"
+        />
+      </div>
     </div>
   );
 } 
