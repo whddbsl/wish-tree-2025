@@ -6,6 +6,7 @@ import { addDoc, collection, getDoc, doc, serverTimestamp } from 'firebase/fires
 import { auth, db } from '@/lib/firebase/config';
 import Image from 'next/image';
 import Link from 'next/link';
+import Canvas from '@/components/Canvas';
 
 interface Message {
   content: string;
@@ -128,7 +129,13 @@ export default function TreePage() {
           <p className="text-center text-gray-600 mb-6">
             따뜻한 새해 메시지를 남겨보세요
           </p>
-          <form onSubmit={handleSubmit} className="space-y-6">
+
+          <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1]">
+            <h2 className="text-lg font-bold mb-2 text-gray-800">손그림 그리기</h2>
+            <Canvas />
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 봉투 디자인 선택
