@@ -34,6 +34,14 @@ function LoadingTree() {
   );
 }
 
+const calculateDDay = () => {
+  const today = new Date();
+  const newYear = new Date('2025-01-01');
+  const diffTime = newYear.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+};
+
 export default function TreePage() {
   const params = useParams();
   const [ownerName, setOwnerName] = useState<string>('');
@@ -112,7 +120,10 @@ export default function TreePage() {
   return (
     <div className="min-h-screen bg-[#FFF5E1] p-4">
       <div className="max-w-md mx-auto space-y-6">
-        <div className="flex justify-end">
+        <div className="flex justify-between items-center">
+          <div className="text-[#FF4B4B] font-bold">
+            D-{calculateDDay()}
+          </div>
           <Link
             href="/login"
             className="bg-[#FF4B4B] hover:bg-[#FF6B6B] text-white px-4 py-2 rounded-lg transition-colors text-sm"
