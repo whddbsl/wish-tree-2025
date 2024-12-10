@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/config";
 import Image from "next/image";
-import { IoCloseOutline, IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
+import { IoCloseOutline, IoChevronBackOutline, IoChevronForwardOutline, IoLogoWhatsapp } from "react-icons/io5";
 import { useSwipeable } from "react-swipeable";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
@@ -467,17 +467,36 @@ export default function MyTreePage() {
           </div>
         )}
 
-        {/* URL 공유 버튼 */}
-        <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1]">
-          <h2 className="text-xl font-bold mb-4 text-gray-800">
-            내 복주머니 공유하기
-          </h2>
-          <button
-            onClick={handleShare}
-            className="w-full bg-[#FF4B4B] hover:bg-[#FF6B6B] text-white font-bold py-2 px-4 rounded-lg transition-colors"
-          >
-            공유 URL 복사하기
-          </button>
+        {/* URL 공유 버튼과 피드백 버튼 컨테이너 */}
+        <div className="space-y-4">
+          {/* 기존 URL 공유 버튼 */}
+          <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1]">
+            <h2 className="text-xl font-bold mb-4 text-gray-800">
+              내 복주머니 공유하기
+            </h2>
+            <button
+              onClick={handleShare}
+              className="w-full bg-[#FF4B4B] hover:bg-[#FF6B6B] text-white font-bold py-2 px-4 rounded-lg transition-colors"
+            >
+              공유 URL 복사하기
+            </button>
+          </div>
+
+          {/* 피드백 버튼 추가 */}
+          <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1]">
+            <h2 className="text-xl font-bold mb-4 text-gray-800">
+              서비스 문의 / 피드백
+            </h2>
+            <a
+              href="https://open.kakao.com/o/sQDpNt4g"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full bg-[#FEE500] hover:bg-[#FEE500]/90 text-[#3A1D1D] font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+            >
+              <IoLogoWhatsapp size={20} />
+              카카오톡으로 문의하기
+            </a>
+          </div>
         </div>
       </div>
     </div>
