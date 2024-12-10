@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/config";
 import Image from "next/image";
-import { IoCloseOutline } from "react-icons/io5";
+import { IoCloseOutline, IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 import { useSwipeable } from "react-swipeable";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
@@ -270,6 +270,26 @@ export default function MyTreePage() {
               <div className="h-[50vh] relative">
                 {messages.length > 0 ? (
                   <div {...handlers} className="relative h-full">
+                    {/* 왼쪽 화살표 */}
+                    {currentPage > 0 && (
+                      <button
+                        onClick={() => setCurrentPage(prev => prev - 1)}
+                        className="absolute left-[-20px] top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white rounded-full p-2 shadow-md text-[#FF4B4B] transition-all duration-200"
+                      >
+                        <IoChevronBackOutline size={20} />
+                      </button>
+                    )}
+
+                    {/* 오른쪽 화살표 */}
+                    {currentPage < totalPages - 1 && (
+                      <button
+                        onClick={() => setCurrentPage(prev => prev + 1)}
+                        className="absolute right-[-20px] top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white rounded-full p-2 shadow-md text-[#FF4B4B] transition-all duration-200"
+                      >
+                        <IoChevronForwardOutline size={20} />
+                      </button>
+                    )}
+
                     <div className="grid grid-cols-3 gap-x-3 gap-y-4 h-full place-items-center relative z-10">
                       {currentMessages.map((message, index) => (
                         <div
