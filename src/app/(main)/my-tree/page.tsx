@@ -197,83 +197,210 @@ export default function MyTreePage() {
     }).format(date);
   };
 
+  // 메시지를 열 수 있는지 확인하는 함수
   const canOpenMessages = () => {
     const now = new Date();
     const targetDate = new Date("2025-01-01T00:00:00+09:00"); // 한국 시간 기준
     return now >= targetDate;
   };
 
+  // 메시지 클릭 핸들러 수정
   const handleMessageClick = (messageId: string) => {
     if (!canOpenMessages()) {
-      alert("2025년 1월 1일부터 메시지를 확인할 수 있어요!");
+      alert("2025년 1월 1일부터 확인할 수 있어요! 조금만 더 기다려주세요 💌");
       return;
     }
     setSelectedMessageId(messageId);
   };
 
   return (
-    <div className="min-h-screen bg-[#FFF5E1] p-4">
-      <div className="max-w-md mx-auto space-y-6">
-        <CountdownTimer />
-        
-        {/* 메시지 목록 */}
-        <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1]">
-          <h2 className="text-xl font-bold mb-4 text-gray-800">
-            받은 메시지 ({messages.length})
+    <div className="min-h-screen bg-[#FFF5E1] text-gray-800 p-4">
+      <div className="max-w-md mx-auto">
+        {/* 사용자 이름 표시 */}
+        <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1] mb-4">
+          <h2 className="text-xl font-bold text-center text-gray-800">
+            {userName ? `${userName}님의 소원트리` : "소원트리"}
           </h2>
-          
+        </div>
+
+        {/* 카운트다운 타이머 추가 */}
+        <CountdownTimer />
+
+        {/* 메시지 현황 */}
+        <div
+          className="bg-white/50 backdrop-blur-sm p-4 rounded-lg mb-4 h-[58vh] border border-[#FFD1D1]"
+          style={{
+            backgroundImage: "url(/images/background.jpg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <div className="bg-white/70 backdrop-blur-sm p-2 rounded-lg inline-block">
+              <h2 className="text-xl font-bold text-[#FF4B4B]">받은 메시지</h2>
+            </div>
+            <div className="text-2xl font-bold text-[#FF4B4B]">
+              {messages.length}개
+            </div>
+          </div>
+
           {loading ? (
-            <div className="flex items-center justify-center h-32">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#FF4B4B]"></div>
+            <div className="text-center py-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#FF4B4B] mx-auto"></div>
             </div>
           ) : messages.length > 0 ? (
             <>
-              <div className="grid grid-cols-3 gap-4" {...handlers}>
-                {currentMessages.map((message) => (
-                  <div
-                    key={message.id}
-                    onClick={() => handleMessageClick(message.id)}
-                    className={`relative cursor-pointer transition-transform hover:scale-105 ${
-                      !canOpenMessages() ? 'opacity-70' : ''
-                    }`}
-                  >
-                    <Image
-                      src={`/images/envelopes/envelope${message.envelopeType}.png`}
-                      alt="봉투"
-                      width={120}
-                      height={120}
-                      className="w-full h-auto"
-                    />
-                    {!message.isRead && (
-                      <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></div>
+              {/* 불꽃놀이 효과 */}
+              <div className="fireworks-container absolute inset-0 pointer-events-none">
+                <div
+                  className="firework"
+                  style={{ "--delay": "0s" } as React.CSSProperties}
+                ></div>
+                <div
+                  className="firework"
+                  style={{ "--delay": "0.5s" } as React.CSSProperties}
+                ></div>
+                <div
+                  className="firework"
+                  style={{ "--delay": "1s" } as React.CSSProperties}
+                ></div>
+              </div>
+
+              {/* 기존 메시지 컨테이너 */}
+              <div className="h-[50vh] relative">
+                {messages.length > 0 ? (
+                  <div {...handlers} className="relative h-full">
+                    <div className="grid grid-cols-3 gap-x-3 gap-y-4 h-full place-items-center relative z-10">
+                      {currentMessages.map((message, index) => (
+                        <div
+                          key={message.id}
+                          className={`
+                            relative cursor-pointer 
+                            flex flex-col items-center gap-1
+                            transform hover:scale-105 transition-all
+                            ${index % 2 === 0 ? "animate-bounce-slow" : "animate-bounce-slower"}
+                            ${!canOpenMessages() ? 'opacity-70' : ''}
+                          `}
+                          onClick={() => handleMessageClick(message.id)}
+                        >
+                          <div className="relative">
+                            <Image
+                              src={`/images/envelopes/envelope${message.envelopeType || 1}.png`}
+                              alt={`메시지 from ${message.sender}`}
+                              width={65}
+                              height={65}
+                              className={`rounded-2xl shadow-[0_0_15px_rgba(255,75,75,0.3)] 
+                                ${!canOpenMessages() ? 'filter grayscale' : ''}`}
+                            />
+                            {!canOpenMessages() && (
+                              <div className="absolute top-0 right-0 w-4 h-4 bg-gray-500 rounded-full flex items-center justify-center">
+                                <span className="text-white text-xs">🔒</span>
+                              </div>
+                            )}
+                          </div>
+                          <span className="text-xs text-gray-700 font-medium text-center">
+                            {message.sender}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* 페이지 인디케이터 - 메시지가 9개 이상일 때만 표시 */}
+                    {totalPages > 1 && (
+                      <div className="absolute -bottom-2 left-0 right-0 flex justify-center gap-2">
+                        {Array.from({ length: totalPages }).map((_, index) => (
+                          <div
+                            key={index}
+                            className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                              currentPage === index
+                                ? "bg-[#FF4B4B]"
+                                : "bg-gray-300"
+                            }`}
+                          />
+                        ))}
+                      </div>
                     )}
                   </div>
-                ))}
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-600 relative z-10">
+                    아직 받은 메시지가 없습니다.
+                  </div>
+                )}
               </div>
-              
-              {/* 페이지네이션 */}
-              {totalPages > 1 && (
-                <div className="flex justify-center mt-4 gap-2">
-                  {Array.from({ length: totalPages }).map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentPage(index)}
-                      className={`w-2 h-2 rounded-full ${
-                        currentPage === index ? "bg-[#FF4B4B]" : "bg-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
-              )}
+
+              {/* 불꽃놀이 애니메이션을 위한 스타일 */}
+              <style jsx global>{`
+                .fireworks-container {
+                  overflow: hidden;
+                }
+
+                .firework {
+                  position: absolute;
+                  width: 4px;
+                  height: 4px;
+                  border-radius: 50%;
+                  animation: firework-animation 2s infinite;
+                  animation-delay: var(--delay);
+                }
+
+                .firework::before {
+                  content: "";
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 50%;
+                  transform-origin: center;
+                  animation: firework-particles 2s infinite;
+                  animation-delay: var(--delay);
+                }
+
+                @keyframes firework-animation {
+                  0% {
+                    transform: translate(50vw, 50vh);
+                    background: #ff4b4b;
+                  }
+                  50% {
+                    transform: translate(50vw, 20vh);
+                    background: #ff4b4b;
+                  }
+                  100% {
+                    transform: translate(50vw, 50vh);
+                    background: transparent;
+                  }
+                }
+
+                @keyframes firework-particles {
+                  0% {
+                    box-shadow: 0 0 0 0 #ffd1d1, 0 0 0 0 #ff8b8b,
+                      0 0 0 0 #ff4b4b;
+                  }
+                  50% {
+                    box-shadow: 100px -100px 0 0 #ffd1d1,
+                      -100px -100px 0 0 #ff8b8b, 0 -100px 0 0 #ff4b4b,
+                      100px 100px 0 0 #ffd1d1, -100px 100px 0 0 #ff8b8b,
+                      0 100px 0 0 #ff4b4b;
+                  }
+                  100% {
+                    box-shadow: 200px -200px 0 -5px transparent,
+                      -200px -200px 0 -5px transparent,
+                      0 -200px 0 -5px transparent,
+                      200px 200px 0 -5px transparent,
+                      -200px 200px 0 -5px transparent,
+                      0 200px 0 -5px transparent;
+                  }
+                }
+              `}</style>
             </>
           ) : (
-            <div className="flex items-center justify-center h-32 text-gray-600">
+            <div className="flex items-center justify-center h-full text-gray-600">
               아직 받은 메시지가 없습니다.
             </div>
           )}
         </div>
 
-        {/* 메시지 상세 내용 모달 */}
+        {/* 메시지 상세 내용 모달 - canOpenMessages()가 true일 때만 표시 */}
         {selectedMessageId && canOpenMessages() && (
           <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
             <div
