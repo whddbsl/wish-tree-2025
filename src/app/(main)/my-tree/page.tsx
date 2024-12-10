@@ -219,7 +219,7 @@ export default function MyTreePage() {
         {/* 사용자 이름 표시 */}
         <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1] mb-4">
           <h2 className="text-xl font-bold text-center text-gray-800">
-            {userName ? `${userName}님의 소원트리` : "소원트리"}
+            {userName ? `${userName}님의 복주머니` : "복주머니"}
           </h2>
         </div>
 
@@ -450,7 +450,7 @@ export default function MyTreePage() {
         {/* URL 공유 버튼 */}
         <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1]">
           <h2 className="text-xl font-bold mb-4 text-gray-800">
-            내 트리 공유하기
+            내 복주머니 공유하기
           </h2>
           <button
             onClick={handleShare}
