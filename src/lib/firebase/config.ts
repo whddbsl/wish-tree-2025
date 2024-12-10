@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, initializeFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -18,8 +18,10 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0
 // Auth 초기화
 const auth = getAuth(app);
 
-// Firestore 초기화 with 설정
-const db = getFirestore(app);
+// Firestore 초기화 - CORS 설정 추가
+const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true
+});
 
 // Firestore 설정
 const connectFirestoreEmulator = async () => {
