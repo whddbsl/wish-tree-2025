@@ -274,9 +274,7 @@ export default function MyTreePage() {
                     {currentPage > 0 && (
                       <button
                         onClick={() => setCurrentPage(prev => prev - 1)}
-                        className="absolute left-[-20px] top-1/2 transform -translate-y-1/2 z-20
-                                   bg-white/80 hover:bg-white rounded-full p-2 shadow-md
-                                   text-[#FF4B4B] transition-all duration-200"
+                        className="absolute left-[-20px] top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white rounded-full p-2 shadow-md text-[#FF4B4B] transition-all duration-200"
                       >
                         <IoChevronBackOutline size={20} />
                       </button>
@@ -286,9 +284,7 @@ export default function MyTreePage() {
                     {currentPage < totalPages - 1 && (
                       <button
                         onClick={() => setCurrentPage(prev => prev + 1)}
-                        className="absolute right-[-20px] top-1/2 transform -translate-y-1/2 z-20
-                                   bg-white/80 hover:bg-white rounded-full p-2 shadow-md
-                                   text-[#FF4B4B] transition-all duration-200"
+                        className="absolute right-[-20px] top-1/2 transform -translate-y-1/2 z-20 bg-white/80 hover:bg-white rounded-full p-2 shadow-md text-[#FF4B4B] transition-all duration-200"
                       >
                         <IoChevronForwardOutline size={20} />
                       </button>
