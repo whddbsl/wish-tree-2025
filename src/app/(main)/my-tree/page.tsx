@@ -23,7 +23,6 @@ interface Message {
   createdAt: Timestamp;
   isRead: boolean;
   envelopeType: number;
-  imageUrl?: string; // 그림 URL 추가
 }
 
 function CountdownTimer() {
@@ -426,22 +425,6 @@ export default function MyTreePage() {
                     {messages.find((m) => m.id === selectedMessageId)?.content}
                   </p>
                 </div>
-
-                {/* 그림 표시 */}
-                {messages.find((m) => m.id === selectedMessageId)?.imageUrl && (
-                  <div className="relative w-full h-64 mt-4">
-                    <Image
-                      src={
-                        messages.find((m) => m.id === selectedMessageId)
-                          ?.imageUrl || ""
-                      }
-                      alt="그림"
-                      layout="fill"
-                      objectFit="contain"
-                      className="rounded-lg"
-                    />
-                  </div>
-                )}
               </div>
             </div>
           </div>

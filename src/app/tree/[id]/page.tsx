@@ -1,13 +1,11 @@
 "use client";
 
 import { useParams } from 'next/navigation';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { addDoc, collection, getDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { getStorage, ref, uploadString, getDownloadURL } from 'firebase/storage';
 import { auth, db } from '@/lib/firebase/config';
 import Image from 'next/image';
 import Link from 'next/link';
-import Canvas from '@/components/Canvas';
 
 interface Message {
   content: string;
@@ -44,7 +42,6 @@ export default function TreePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [selectedEnvelope, setSelectedEnvelope] = useState(1);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const fetchTreeOwner = async () => {
@@ -84,17 +81,6 @@ export default function TreePage() {
 
       const decodedTreeOwnerId = decodeURIComponent(params.id).replace('%3A', ':');
 
-      // 캔버스에서 그림 데이터 가져오기
-      const canvas = canvasRef.current;
-      if (!canvas) throw new Error('Canvas not found');
-      const imageData = canvas.toDataURL('image/png');
-
-      // Firebase Storage에 그림 업로드
-      const storage = getStorage();
-      const storageRef = ref(storage, `drawings/${Date.now()}.png`);
-      await uploadString(storageRef, imageData, 'data_url');
-      const imageUrl = await getDownloadURL(storageRef);
-
       const messageData = {
         sender: sender.trim(),
         content: message.trim(),
@@ -102,7 +88,6 @@ export default function TreePage() {
         createdAt: serverTimestamp(),
         isRead: false,
         envelopeType: selectedEnvelope,
-        imageUrl: imageUrl // 그림 URL 추가
       };
 
       await addDoc(collection(db, 'messages'), messageData);
@@ -143,11 +128,6 @@ export default function TreePage() {
           <p className="text-center text-gray-600 mb-6">
             따뜻한 새해 메시지를 남겨보세요
           </p>
-
-          <div className="bg-white/50 backdrop-blur-sm p-4 rounded-lg border border-[#FFD1D1]">
-            <h2 className="text-lg font-bold mb-2 text-gray-800">손그림 그리기</h2>
-            <Canvas ref={canvasRef} />
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="mb-4">
